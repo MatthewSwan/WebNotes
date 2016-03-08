@@ -12,8 +12,8 @@ class AcceptanceTest < Minitest::Test
     thread.abort_on_exception = true
     block.call
   ensure
-    thread.kill
-    server.stop
+    thread.kill if thread
+    server.stop if server
   end
 
   def test_it_accepts_and_responds_to_a_web_request
@@ -33,7 +33,7 @@ class AcceptanceTest < Minitest::Test
     end
   end
 
-
+  meta hi: true
   def test_it_handles_multiple_requests
     app = Proc.new { |env_hash| [200, {'Content-Type' => 'text/plain'}, []] }
 
