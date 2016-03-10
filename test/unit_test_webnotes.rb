@@ -22,4 +22,16 @@ class UnitTest < Minitest::Test
     @env = Notes::Web.parser(@read)
     assert_equal (@env['REQUEST_METHOD']), 'POST'
   end
+
+  def test_it_parses_second_token_into_PATH
+    setup
+    @env = Notes::Web.parser(@read)
+    assert_equal (@env['PATH']), '/somepath'
+  end
+
+  def test_it_parses_third_token_into_VERSION
+    setup
+    @env = Notes::Web.parser(@read)
+    assert_equal (@env['VERSION']), 'HTTP/1.1'
+  end
 end

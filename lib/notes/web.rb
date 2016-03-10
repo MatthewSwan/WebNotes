@@ -23,6 +23,8 @@ class Notes
       env = {}
       method, path, version = socket.gets.split
       env['REQUEST_METHOD'] = method
+      env['PATH'] = path
+      env['VERSION'] = version
       env
     end
   end
