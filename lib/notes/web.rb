@@ -1,27 +1,32 @@
-require 'rack'
 require 'socket'
 
 class Notes
   class Web
     attr_accessor :server, :request
     def initialize(app, hash)
-      @request = app.call
+      @app = app
+      @hash = hash
       @server = TCPServer.new hash[:Host],hash[:Port]
     end
 
     def stop
+      socket.close
     end
 
     def start
       socket = server.accept
-      while (line = socket.gets) do
-          puts line
-      end
+      status, headers, body = app.call(env)
+      socket.close
     end
 
+    def self.parser(socket)
+      env = {}
+      method, path, version = socket.gets.split
+      env['REQUEST_METHOD'] = method
+      env
+    end
   end
 end
-
 
 
   #headers['Content-Length'] = body.length.to_s
