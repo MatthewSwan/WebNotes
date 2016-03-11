@@ -13,8 +13,7 @@ class AcceptanceTest < Minitest::Test
     block.call
   ensure
     thread.kill if thread
-    server.stop if server
-  end
+    server.stop if server end
 
   def test_it_accepts_and_responds_to_a_web_request
     path_info = "this value should be overridden by the app!"
