@@ -13,8 +13,7 @@ class AcceptanceTest < Minitest::Test
     block.call
   ensure
     thread.kill if thread
-    server.stop if server
-  end
+    server.stop if server end
 
   def test_it_accepts_and_responds_to_a_web_request
     path_info = "this value should be overridden by the app!"
@@ -33,7 +32,6 @@ class AcceptanceTest < Minitest::Test
     end
   end
 
-  meta hi: true
   def test_it_handles_multiple_requests
     app = Proc.new { |env_hash| [200, {'Content-Type' => 'text/plain'}, []] }
 
@@ -42,7 +40,6 @@ class AcceptanceTest < Minitest::Test
       assert_equal "200", Net::HTTP.get_response('localhost', '/', port).code
     end
   end
-
 
   def test_it_starts_on_the_specified_port
     other_port = 9293
