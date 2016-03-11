@@ -33,7 +33,6 @@ class AcceptanceTest < Minitest::Test
     end
   end
 
-  meta hi: true
   def test_it_handles_multiple_requests
     app = Proc.new { |env_hash| [200, {'Content-Type' => 'text/plain'}, []] }
 
@@ -43,7 +42,7 @@ class AcceptanceTest < Minitest::Test
     end
   end
 
-
+  meta hi: true
   def test_it_starts_on_the_specified_port
     other_port = 9293
     app = Proc.new do |env_hash|

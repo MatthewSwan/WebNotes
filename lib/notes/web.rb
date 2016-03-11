@@ -1,4 +1,3 @@
-require 'rack'
 require 'socket'
 
 class Notes
@@ -6,7 +5,7 @@ class Notes
     attr_accessor :server, :request
     def initialize(app, hash)
       @request = app.call
-      @server = TCPServer.new hash[:Host],hash[:Port]
+      @server = TCPServer.new hash[:Host], hash[:Port]
     end
 
     def stop
@@ -14,9 +13,7 @@ class Notes
 
     def start
       socket = server.accept
-      while (line = socket.gets) do
-          puts line
-      end
+      socket.puts request
     end
 
   end
