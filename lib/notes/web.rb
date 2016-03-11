@@ -2,9 +2,10 @@ require 'socket'
 
 class Notes
   class Web
-    attr_accessor :server, :request
+    attr_accessor :app, :hash
     def initialize(app, hash)
-      @request = app.call
+      @app = app
+      @hash = hash
       @server = TCPServer.new hash[:Host], hash[:Port]
     end
 
@@ -16,6 +17,20 @@ class Notes
       socket.puts request
     end
 
+    def self.parser(socket)
+      env = {}
+      method, path, version = socket.gets.split
+      env['REQUEST_METHOD'] = method
+      env['PATH'] = path
+      env['VERSION'] = version
+      until (line = socket.gets) == "\r\n" do
+        header_values = line.split(':')
+        key = header_values[0]
+        value = header_values[1..-1].join.strip
+        env[key] = value
+      end
+      env
+    end
   end
 end
 
