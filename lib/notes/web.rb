@@ -10,6 +10,7 @@ class Notes
     end
 
     def stop
+      socket.close
     end
 
     def start
@@ -33,7 +34,6 @@ class Notes
     end
   end
 end
-
 
 
   #headers['Content-Length'] = body.length.to_s

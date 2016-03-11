@@ -17,6 +17,7 @@ class UnitTest < Minitest::Test
     @write.print "some body"
   end
 
+<<<<<<< HEAD
   def teardown
     @write.close
     @read.close
@@ -27,17 +28,29 @@ class UnitTest < Minitest::Test
     env = Notes::Web.parser(@read)
     assert_equal (env['REQUEST_METHOD']), 'POST'
     teardown
+=======
+  def test_it_parses_first_token_into_REQUEST_METHOD
+    setup
+    @env = Notes::Web.parser(@read)
+    assert_equal (@env['REQUEST_METHOD']), 'POST'
+>>>>>>> e47682380eef8235da812672ff3953c368f5c05a
   end
 
   def test_it_parses_second_token_into_PATH
     setup
+<<<<<<< HEAD
     env = Notes::Web.parser(@read)
     assert_equal (env['PATH']), '/somepath'
     teardown
+=======
+    @env = Notes::Web.parser(@read)
+    assert_equal (@env['PATH']), '/somepath'
+>>>>>>> e47682380eef8235da812672ff3953c368f5c05a
   end
 
   def test_it_parses_third_token_into_VERSION
     setup
+<<<<<<< HEAD
     env = Notes::Web.parser(@read)
     assert_equal (env['VERSION']), 'HTTP/1.1'
     teardown
@@ -48,5 +61,9 @@ class UnitTest < Minitest::Test
     env = Notes::Web.parser(@read)
     assert_equal (env["Server"]), "gws"
     teardown
+=======
+    @env = Notes::Web.parser(@read)
+    assert_equal (@env['VERSION']), 'HTTP/1.1'
+>>>>>>> e47682380eef8235da812672ff3953c368f5c05a
   end
 end
