@@ -10,19 +10,31 @@ class Notes
     end
 
     def stop
-      socket.close
+      @server.close
     end
 
     def start
-      socket = server.accept
-      socket.puts request
+      loop do
+        socket = @server.accept
+        env = Notes::Web.parser(socket)
+        status, headers, body = app.call(env)
+        Notes::Web.printer(socket, status, headers, body)
+        socket.close
+      end
+    end
+
+    def self.printer(socket, status, headers, body)
+      socket.print "HTTP/1.1 #{status} some text goes here *shrug*\r\n"
+      headers.each { |key, value| socket.print "#{key}: #{value}\r\n" }
+      socket.print "\r\n"
+      body.each { |line| socket.print line }
     end
 
     def self.parser(socket)
       env = {}
       method, path, version = socket.gets.split
       env['REQUEST_METHOD'] = method
-      env['PATH'] = path
+      env['PATH_INFO'] = path
       env['VERSION'] = version
       until (line = socket.gets) == "\r\n" do
         header_values = line.split(':')
