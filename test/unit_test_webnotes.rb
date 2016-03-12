@@ -49,4 +49,11 @@ class UnitTest < Minitest::Test
     assert_equal (env["Server"]), "gws"
     teardown
   end
+
+  def test_it_parses_body_string_into_key_value_pair
+    setup
+    env = Notes::Web.parser(@read)
+    assert_equal (env["Body"]), "some body"
+    teardown
+  end
 end
