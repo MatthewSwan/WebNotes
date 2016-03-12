@@ -30,6 +30,8 @@ class Notes
         value = header_values[1..-1].join.strip
         env[key] = value
       end
+      body = socket.read(env["Content-Length"].to_i)
+      env["Body"] = body
       env
     end
   end
