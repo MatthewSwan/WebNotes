@@ -32,7 +32,7 @@ class UnitTest < Minitest::Test
   def test_it_parses_second_token_into_PATH
     setup
     env = Notes::Web.parser(@read)
-    assert_equal (env['PATH']), '/somepath'
+    assert_equal (env['PATH_INFO']), '/somepath'
     teardown
   end
 
