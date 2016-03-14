@@ -1,6 +1,7 @@
 require 'notes/web'
 
 class UnitTest < Minitest::Test
+  attr_reader :env
   def setup
     @read, @write = IO.pipe
     @write.print "POST /somepath HTTP/1.1\r\n"
@@ -15,6 +16,8 @@ class UnitTest < Minitest::Test
     @write.print "X-Frame-Options: SAMEORIGIN\r\n"
     @write.print "\r\n"
     @write.print "some body"
+
+    @env = Notes::Web.parser(@read)
   end
 
   def teardown
@@ -23,52 +26,31 @@ class UnitTest < Minitest::Test
   end
 
   def test_it_parses_first_token_into_REQUEST_METHOD
-    setup
-    env = Notes::Web.parser(@read)
-    assert_equal (env['REQUEST_METHOD']), 'POST'
-    teardown
+    assert_equal env['REQUEST_METHOD'], 'POST'
   end
 
   def test_it_parses_second_token_into_PATH
-    setup
-    env = Notes::Web.parser(@read)
-    assert_equal (env['PATH_INFO']), '/somepath'
-    teardown
+    assert_equal env['PATH_INFO'], '/somepath'
   end
 
   def test_it_parses_third_token_into_VERSION
-    setup
-    env = Notes::Web.parser(@read)
-    assert_equal (env['VERSION']), 'HTTP/1.1'
-    teardown
+    assert_equal env['VERSION'], 'HTTP/1.1'
   end
 
   def test_it_parses_header_values_into_key_value_pairs
-    setup
-    env = Notes::Web.parser(@read)
-    assert_equal (env["HTTP_X_FRAME_OPTIONS"]), "SAMEORIGIN"
-    teardown
+    assert_equal env["HTTP_X_FRAME_OPTIONS"], "SAMEORIGIN"
   end
 
   def test_it_prepends_header_values_with_HTTP
-    setup
-    env = Notes::Web.parser(@read)
-    assert_equal (env["HTTP_SERVER"]), "gws"
-    teardown
+    assert_equal env["HTTP_SERVER"], "gws"
   end
 
   def test_it_does_not_prepend_content_length_and_type_with_HTTP
-    setup
-    env = Notes::Web.parser(@read)
-    assert_equal (env["CONTENT_LENGTH"]), "9"
-    assert_equal (env["CONTENT_TYPE"]), "text/html; charset=UTF-8"
-    teardown
+    assert_equal env["CONTENT_LENGTH"], "9"
+    assert_equal env["CONTENT_TYPE"], "text/html; charset=UTF-8"
   end
 
   def test_it_parses_body_string_into_key_value_pair
-    setup
-    env = Notes::Web.parser(@read)
-    assert_equal (env["BODY"]), "some body"
-    teardown
+    assert_equal env["BODY"], "some body"
   end
 end
