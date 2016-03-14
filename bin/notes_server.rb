@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+$LOAD_PATH.unshift File.realdirpath('../../lib', __FILE__)
 require_relative '../lib/notes/web'
 require 'net/http'
 
@@ -12,7 +14,7 @@ app = Proc.new do |env_hash|
             '<input type="text/submit/hidden/button" name="query" value="" id="query">'                       + "\n" +
             '<p><input type="submit" value="Continue &rarr;"></p>'                                            + "\n" +
             '</form>'
-  [200, {'Content-Type' => 'text/plain', 'Content-Length' => body.length, 'omg' => 'bbq'}, [body]]
+  [200, {'Content-Type' => 'text/html', 'Content-Length' => body.length, 'omg' => 'bbq'}, [body]]
 end
 
 server = Notes::Web.new(app, Port: port, Host: 'localhost')
