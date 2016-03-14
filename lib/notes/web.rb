@@ -39,7 +39,7 @@ class Notes
       until (line = socket.gets) == "\r\n" do
         header_values = line.split(':')
         key = header_values[0]
-        key = key.upcase.tr("-", "_")
+        key = key.upcase.gsub("-", "_")
         unless key == 'CONTENT_TYPE' || key == 'CONTENT_LENGTH'
           key = "HTTP_#{key}"
         end
