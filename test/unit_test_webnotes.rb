@@ -58,3 +58,37 @@ class ParserUnitTest < Minitest::Test
     assert_equal env["BODY"], "some body"
   end
 end
+
+
+
+class PrinterUnitTest < Minitest::Test
+  attr_reader :env
+  def setup
+    @read, @write = IO.pipe
+    #@write.print "POST /somepath HTTP/1.1\r\n"
+    #@write.print "Location: http://www.google.com/\r\n"
+    #@write.print "Content-Type: text/html; charset=UTF-8\r\n"
+    #@write.print "Date: Wed, 02 Mar 2016 01:09:43 GMT\r\n"
+    #@write.print "Expires: Fri, 01 Apr 2016 01:09:43 GMT\r\n"
+    #@write.print "Cache-Control: public, max-age=2592000\r\n"
+    #@write.print "Server: gws\r\n"
+    #@write.print "Content-Length: 9\r\n"
+    #@write.print "X-XSS-Protection: 1; mode=block\r\n"
+    #@write.print "X-Frame-Options: SAMEORIGIN\r\n"
+    #@write.print "\r\n"
+    #@write.print "some body"
+
+    @env = Notes::Web.printer(@write, 200, {'Content-Type' => 'text/plain', 'Content-Length' => 4, 'omg' => 'bbq'}, ["yeah", "green"] )
+  end
+
+  def teardown
+    @write.close
+    @read.close
+  end
+
+  def test_it_prints_the_shit
+    @write.close
+    assert_equal @read.read, "HTTP/1.1 200 some text goes here *shrug*\r\nContent-Type: text/plain\r\nContent-Length: 4\r\nomg: bbq\r\n\r\nyeahgreen"
+  end
+end
+
