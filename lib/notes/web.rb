@@ -36,7 +36,7 @@ class Notes
       env['PATH_INFO'] = path
       env['VERSION'] = version
       until (line = socket.gets) == "\r\n" do
-        header_values = line.split(": ")
+        header_values = line.split(":", 2)
         key = header_values[0]
         key = key.upcase.gsub("-", "_")
         unless key == 'CONTENT_TYPE' || key == 'CONTENT_LENGTH'
