@@ -1,6 +1,6 @@
 require 'notes/web'
 
-class UnitTest < Minitest::Test
+class ParserUnitTest < Minitest::Test
   attr_reader :env
   def setup
     @read, @write = IO.pipe
@@ -43,6 +43,10 @@ class UnitTest < Minitest::Test
 
   def test_it_prepends_header_values_with_HTTP
     assert_equal env["HTTP_SERVER"], "gws"
+  end
+
+  def test_it_parses_a_string_with_multiple_colons
+    assert_equal env["HTTP_DATE"], "Wed, 02 Mar 2016 01:09:43 GMT"
   end
 
   def test_it_does_not_prepend_content_length_and_type_with_HTTP

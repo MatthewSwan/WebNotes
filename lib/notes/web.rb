@@ -2,9 +2,8 @@ require 'socket'
 
 class Notes
   class Web
-    attr_accessor :app, :hash
+    attr_accessor :app
     def initialize(app, hash)
-      @hash = hash
       @server = TCPServer.new hash[:Host], hash[:Port]
       @app = app
     end
@@ -37,7 +36,7 @@ class Notes
       env['PATH_INFO'] = path
       env['VERSION'] = version
       until (line = socket.gets) == "\r\n" do
-        header_values = line.split(':')
+        header_values = line.split(": ")
         key = header_values[0]
         key = key.upcase.gsub("-", "_")
         unless key == 'CONTENT_TYPE' || key == 'CONTENT_LENGTH'
