@@ -46,14 +46,29 @@ class UnitTest < Minitest::Test
   def test_it_parses_header_values_into_key_value_pairs
     setup
     env = Notes::Web.parser(@read)
-    assert_equal (env["Server"]), "gws"
+    assert_equal (env["HTTP_X_FRAME_OPTIONS"]), "SAMEORIGIN"
+    teardown
+  end
+
+  def test_it_prepends_header_values_with_HTTP
+    setup
+    env = Notes::Web.parser(@read)
+    assert_equal (env["HTTP_SERVER"]), "gws"
+    teardown
+  end
+
+  def test_it_does_not_prepend_content_length_and_type_with_HTTP
+    setup
+    env = Notes::Web.parser(@read)
+    assert_equal (env["CONTENT_LENGTH"]), "9"
+    assert_equal (env["CONTENT_TYPE"]), "text/html; charset=UTF-8"
     teardown
   end
 
   def test_it_parses_body_string_into_key_value_pair
     setup
     env = Notes::Web.parser(@read)
-    assert_equal (env["Body"]), "some body"
+    assert_equal (env["BODY"]), "some body"
     teardown
   end
 end
