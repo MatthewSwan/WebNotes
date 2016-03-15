@@ -1,0 +1,38 @@
+#!/usr/bin/env ruby
+$LOAD_PATH.unshift File.realdirpath('../../lib', __FILE__)
+require 'notes'
+
+notes = ['Add 1 to 2    1 + 2  # => 3',
+        'Subtract 5 from 2    2 - 5  # => -3',
+        'Is 1 less than 2    1 < 2  # => true',
+        'Is 1 equal to 2    1 == 2 # => 3',
+        'Is 1 greater than 2    1 > 2  # => 3',
+        'Is 1 less than or equal to 2    1 <= 2 # => 3',
+        'Is 1 greater than or equal to 2    1 >= 2 # => 3',
+        'Convert 1 to a float    1.to_f # => 3',
+        'Concatenate two arrays    [1,2] + [2, 3]   # => [1, 2, 2, 3]',
+        'Remove elements in second array from first    [1,2,4] - [2, 3] # => [1,4]',
+        'Access an element in an array by its index    ["a","b","c"][0] # => "a"',
+        'Find out how big the array is    ["a","b"].length # => 2']
+
+help = "Uasge: notes [filter1] [filter2] [...]\nNotes that are accessible from the command line."
+
+if ARGV.length == 0
+  puts notes
+elsif ARGV.include?('-h')
+  puts Notes.new.select_help(help)
+elsif ARGV.include?('plus')
+  ARGV.shift
+  ARGV << 'add'
+  puts Notes.new.select_all(notes, ARGV)
+  ARGV.pop
+  ARGV << '\\+'
+  puts Notes.new.select_all(notes, ARGV)
+elsif ARGV.include?('integer')
+  puts Notes.new.select_integer(notes, ARGV)
+else
+  puts Notes.new.select_all(notes, ARGV)
+end
+
+
+
