@@ -31,7 +31,14 @@ class Notes
 
     def self.parser(socket)
       env = {}
-      method, path, version = socket.gets.split
+      method, url, version = socket.gets.split
+      url_array = url.split("?", 2)
+      path = url_array[0]
+      query = url_array[1]
+      if query != nil
+        query_array = query.split("=")
+        query = Hash[query_array.each_slice(2).to_a]
+      end
       env['REQUEST_METHOD'] = method
       env['PATH_INFO'] = path
       env['VERSION'] = version
