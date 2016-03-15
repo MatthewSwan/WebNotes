@@ -40,7 +40,6 @@ class AcceptanceTest < Minitest::Test
 
     run_server port, app do
       response = Net::HTTP.get_response('localhost', '/lolol', port)
-      require "pry"
       assert_equal "200",              response.code
       assert_equal 'bbq',              response.header['omg']
       assert_equal "hello, class ^_^", response.body
