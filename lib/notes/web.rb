@@ -35,8 +35,6 @@ class Notes
       url_array = url.split("?", 2)
       path = url_array[0]
       query = url_array[1]
-      require "pry"
-      binding.pry
       if query != nil
         query_array = query.split("=")
         query = Hash[query_array.each_slice(2).to_a]

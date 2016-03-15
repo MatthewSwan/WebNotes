@@ -3,3 +3,7 @@ source 'http://rubygems.org'
 
 # # Tell it we want to use mrspec version 0.3.1
 gem 'mrspec', '= 0.3.1'
+
+gem 'rubocop', '0.38.0'
+
+gem 'pry', '0.10.1'
