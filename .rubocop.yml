@@ -42,7 +42,7 @@ Style/AlignHash:
   #   a:  0
   #   bb: 1
   EnforcedHashRocketStyle: table
-  EnforcedColonStyle: tabl
+  EnforcedColonStyle: table
   EnforcedLastArgumentHashStyle: always_ignore
 
 Style/AlignParameters:
