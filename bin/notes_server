@@ -6,13 +6,13 @@ require 'net/http'
 port = 9292
 
 app = Proc.new do |env_hash|
-  #path_info = env_hash['PATH_INFO']
-  body    = '<form action="/search" method="GET" accept-charset="utf-8">'                  + "\n" +
-            '<label for="query">Query:</label>'                                            + "\n" +
-            '<input type="" name="query" value="" id="query">'                         + "\n" +
-            '<p><input type="submit" value="Continue &rarr;"></p>'                         + "\n" +
-            '</form>'
-  #env_hash.store('Content-Type', 'text/html')
+  # path_info = env_hash['PATH_INFO']
+  body = '<form action="/search" method="GET" accept-charset="utf-8">'                  + "\n" \
+         '<label for="query">Query:</label>'                                            + "\n" \
+         '<input type="" name="query" value="" id="query">'                             + "\n" \
+         '<p><input type="submit" value="Continue &rarr;"></p>'                         + "\n" \
+         '</form>'
+  # env_hash.store('Content-Type', 'text/html')
   [200, {'Content-Type' => 'text/html', 'Content-Length' => body.length, 'omg' => 'bbq'}, [body]]
 end
 
