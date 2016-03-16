@@ -8,7 +8,6 @@ class AcceptanceTest < Minitest::Test
 
   def run_server(port, app, &block)
     server = Notes::Web.new(app, Port: port, Host: 'localhost')
-    # The thread allows the server to sit and wait for a request, but still return to here so we can send it.
     thread = Thread.new do
       Thread.current.abort_on_exception = true
       server.start
@@ -28,16 +27,13 @@ class AcceptanceTest < Minitest::Test
     end
   end
 
-
   def test_it_accepts_and_responds_to_a_web_request
     path_info = "this value should be overridden by the app!"
-
     app = Proc.new do |env_hash|
       path_info = env_hash['PATH_INFO']
-      body      = "hello, class ^_^"
-      [200, {'Content-Type' => 'text/plain', 'Content-Length' => body.length, 'omg' => 'bbq'}, [body]]
+      headers   = {'Content-Type' => 'text/plain', 'Content-Length' => '16', 'omg' => 'bbq'}
+      [200, headers, ["hello, class ^_^"]]
     end
-
     run_server port, app do
       response = Net::HTTP.get_response('localhost', '/lolol', port)
       assert_equal "200",              response.code
@@ -47,7 +43,6 @@ class AcceptanceTest < Minitest::Test
     end
   end
 
-
   def test_it_handles_multiple_requests
     app = Proc.new { |env_hash| [200, {'Content-Type' => 'text/plain'}, []] }
 
@@ -56,7 +51,6 @@ class AcceptanceTest < Minitest::Test
       assert_equal "200", Net::HTTP.get_response('localhost', '/', port).code
     end
   end
-
 
   def test_it_starts_on_the_specified_port
     other_port = 9293

@@ -1,0 +1,7 @@
+language: ruby
+rvm:
+ - "2.3.0"
+script: bundle exec rake
+# uncomment this line if you projec needs
+# to run something other that `rake`:
+# script: bundle exec rspec spec

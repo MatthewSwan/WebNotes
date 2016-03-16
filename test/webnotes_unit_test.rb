@@ -25,15 +25,15 @@ class ParserUnitTest < Minitest::Test
     @read.close
   end
 
-  def test_it_parses_first_token_into_REQUEST_METHOD
+  def test_it_parses_first_token_into_request_method
     assert_equal env['REQUEST_METHOD'], 'POST'
   end
 
-  def test_it_parses_second_token_into_PATH
+  def test_it_parses_second_token_into_path
     assert_equal env['PATH_INFO'], '/somepath'
   end
 
-  def test_it_parses_third_token_into_VERSION
+  def test_it_parses_third_token_into_version
     assert_equal env['VERSION'], 'HTTP/1.1'
   end
 
@@ -41,7 +41,7 @@ class ParserUnitTest < Minitest::Test
     assert_equal env["HTTP_X_FRAME_OPTIONS"], "SAMEORIGIN"
   end
 
-  def test_it_prepends_header_values_with_HTTP
+  def test_it_prepends_header_values_with_http
     assert_equal env["HTTP_SERVER"], "gws"
   end
 
@@ -49,7 +49,7 @@ class ParserUnitTest < Minitest::Test
     assert_equal env["HTTP_DATE"], "Wed, 02 Mar 2016 01:09:43 GMT"
   end
 
-  def test_it_does_not_prepend_content_length_and_type_with_HTTP
+  def test_it_does_not_prepend_content_length_and_type_with_http
     assert_equal env["CONTENT_LENGTH"], "9"
     assert_equal env["CONTENT_TYPE"], "text/html; charset=UTF-8"
   end
@@ -59,13 +59,17 @@ class ParserUnitTest < Minitest::Test
   end
 end
 
-
-
 class PrinterUnitTest < Minitest::Test
   attr_reader :env
+
   def setup
     @read, @write = IO.pipe
-    @env = Notes::Web.printer(@write, 200, {'Content-Type' => 'text/plain', 'Content-Length' => 4, 'omg' => 'bbq'}, ["yeah", "green"] )
+    headers = {
+      'Content-Type'   => 'text/plain',
+      'Content-Length' => 4,
+      'omg'            => 'bbq',
+    }
+    @env = Notes::Web.printer(@write, 200, headers, ["yeah", "green"])
   end
 
   def teardown
@@ -73,9 +77,10 @@ class PrinterUnitTest < Minitest::Test
     @read.close
   end
 
-  def test_it_prints_the_HTTP_response_to_the_client
+  def test_it_prints_the_http_response_to_the_client
     @write.close
-    assert_equal @read.read, "HTTP/1.1 200 some text goes here *shrug*\r\nContent-Type: text/plain\r\nContent-Length: 4\r\nomg: bbq\r\n\r\nyeahgreen"
+    assert_equal @read.read, "HTTP/1.1 200 some text goes" \
+                             " here *shrug*\r\nContent-Type: text/plain\r\n" \
+                             "Content-Length: 4\r\nomg: bbq\r\n\r\nyeahgreen"
   end
 end
-

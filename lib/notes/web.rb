@@ -16,7 +16,7 @@ class Notes
       loop do
         socket = @server.accept
         env = Notes::Web.parser(socket)
-        status, headers, body = app.call(env)
+        status, headers, body = @app.call(env)
         Notes::Web.printer(socket, status, headers, body)
         socket.close
       end
@@ -33,18 +33,11 @@ class Notes
       env = {}
       method, url, version = socket.gets.split
       url_array = url.split("?", 2)
-      path = url_array[0]
-      query = url_array[1]
-      require "pry"
-      binding.pry
-      if query != nil
-        query_array = query.split("=")
-        query = Hash[query_array.each_slice(2).to_a]
-      end
       env['REQUEST_METHOD'] = method
-      env['PATH_INFO'] = path
-      env['VERSION'] = version
-      until (line = socket.gets) == "\r\n" do
+      env['PATH_INFO']      = url_array[0]
+      env['VERSION']        = version
+      env['QUERY_STRING']   = url_array[1]
+      until (line = socket.gets) == "\r\n"
         header_values = line.split(":", 2)
         key = header_values[0]
         key = key.upcase.gsub("-", "_")
@@ -78,8 +71,3 @@ class Notes
     notes.select { |note| note =~ /#{selector}/ }
   end
 end
-
-
-
-
-
