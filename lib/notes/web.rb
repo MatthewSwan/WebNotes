@@ -16,7 +16,7 @@ class Notes
       loop do
         socket = @server.accept
         env = Notes::Web.parser(socket)
-        status, headers, body = app.call(env)
+        status, headers, body = @app.call(env)
         Notes::Web.printer(socket, status, headers, body)
         socket.close
       end

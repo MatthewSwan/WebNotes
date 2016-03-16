@@ -1,20 +1,14 @@
 #!/usr/bin/env ruby
 $LOAD_PATH.unshift File.realdirpath('../../lib', __FILE__)
 require_relative '../lib/notes/web'
+require_relative '../lib/notes/app'
 require 'net/http'
 
-port = 9292
-
-app = Proc.new do |env_hash|
-  # path_info = env_hash['PATH_INFO']
-  body = '<form action="/search" method="GET" accept-charset="utf-8">'                  + "\n" \
-         '<label for="query">Query:</label>'                                            + "\n" \
-         '<input type="" name="query" value="" id="query">'                             + "\n" \
-         '<p><input type="submit" value="Continue &rarr;"></p>'                         + "\n" \
-         '</form>'
-  # env_hash.store('Content-Type', 'text/html')
-  [200, {'Content-Type' => 'text/html', 'Content-Length' => body.length, 'omg' => 'bbq'}, [body]]
+class Go
+  include Appmod
+  port = 9292
+  server = Notes::Web.new(App, Port: port, Host: 'localhost')
+  server.start
 end
 
-server = Notes::Web.new(app, Port: port, Host: 'localhost')
-server.start
+Go.new
