@@ -3,8 +3,7 @@ task default: :rubocop
 
 desc 'Run tests'
 task :test do
-  sh "bundle exec mrspec test/acceptance_test_webnotes.rb"
-  sh "bundle exec mrspec test/unit_test_webnotes.rb"
+  sh "bundle exec mrspec"
 end
 
 desc 'Run rubocop'
