@@ -1,4 +1,4 @@
-require_relative 'web'
+require_relative 'server'
 require 'erb'
 module Appmod
   App = Proc.new do |env_hash|

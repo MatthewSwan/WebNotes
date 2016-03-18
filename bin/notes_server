@@ -1,13 +1,13 @@
 #!/usr/bin/env ruby
 $LOAD_PATH.unshift File.realdirpath('../../lib', __FILE__)
-require_relative '../lib/notes/web'
+require_relative '../lib/notes/server'
 require_relative '../lib/notes/app'
 require 'net/http'
 
 class Go
   include Appmod
   port = 9292
-  server = Notes::Web.new(App, Port: port, Host: 'localhost')
+  server = Notes::Server.new(App, Port: port, Host: 'localhost')
   server.start
 end
 
