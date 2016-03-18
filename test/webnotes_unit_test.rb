@@ -1,4 +1,4 @@
-require 'notes/web'
+require 'notes/server'
 
 class ParserUnitTest < Minitest::Test
   attr_reader :env
@@ -17,7 +17,7 @@ class ParserUnitTest < Minitest::Test
     @write.print "\r\n"
     @write.print "some body"
 
-    @env = Notes::Web.parser(@read)
+    @env = Notes::Server.parser(@read)
   end
 
   def teardown
@@ -69,7 +69,7 @@ class PrinterUnitTest < Minitest::Test
       'Content-Length' => 4,
       'omg'            => 'bbq',
     }
-    @env = Notes::Web.printer(@write, 200, headers, ["yeah", "green"])
+    @env = Notes::Server.printer(@write, 200, headers, ["yeah", "green"])
   end
 
   def teardown
