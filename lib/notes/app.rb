@@ -1,4 +1,5 @@
 require_relative 'web'
+require 'erb'
 module Appmod
   App = Proc.new do |env_hash|
   path_info = env_hash['PATH_INFO']
@@ -16,30 +17,19 @@ module Appmod
         'Find out how big the array is    ["a","b"].length # => 2']
 
 
-
   body1   = '<form action="/search.html" method="GET" accept-charset="utf-8">'             + "\n" +
             '<label for="query">Query:</label>'                                            + "\n" +
             '<input type="" name="query" value="" id="query">'                             + "\n" +
             '<p><input type="submit" value="Continue &rarr;"></p>'                         + "\n" +
             '</form>'
 
-  narrowed_notes = Select.new.select_all(notes, env_hash['QUERY_STRING'])
-  narrowed_notes.map! {|x| "<li>" + x + "<li>" }
-
-
-   body2   = "<HTML>
-   <BODY>
-   <P>Relevant Notes:</P>
-  <ul>
-    #{narrowed_notes.join}
-  </ul>
-  <BODY>
-  <HTML>"
+  @narrowed_notes = Select.new.select_all(notes, env_hash['QUERY_STRING'])
 
    if path_info == "/"
-     body = body1
+     body =  body1
    else
-     body = body2
+
+     body = ERB.new(File.read('html')).result(binding())
    end
 
      [200, {'Content-Type' => 'text/html', 'Content-Length' => body.length, 'omg' => 'bbq'}, [body]]
