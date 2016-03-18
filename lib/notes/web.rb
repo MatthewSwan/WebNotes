@@ -28,16 +28,25 @@ class Notes
       socket.print "\r\n"
       body.each { |line| socket.print line }
     end
-
     def self.parser(socket)
       env = {}
       method, url, version = socket.gets.split
       url_array = url.split("?", 2)
+      path = url_array[0]
+      query = url_array[1]
+      if query != nil
+        query_array = query.split("=")
+        query = [query_array.pop]
+      else
+        query = ["add"]
+      end
+
+      #query = Hash[query_array.each_slice(2).to_a]
       env['REQUEST_METHOD'] = method
-      env['PATH_INFO']      = url_array[0]
-      env['VERSION']        = version
-      env['QUERY_STRING']   = url_array[1]
-      until (line = socket.gets) == "\r\n"
+      env['PATH_INFO'] = path
+      env['VERSION'] = version
+      env['QUERY_STRING'] = query
+      until (line = socket.gets) == "\r\n" do
         header_values = line.split(":", 2)
         key = header_values[0]
         key = key.upcase.gsub("-", "_")
