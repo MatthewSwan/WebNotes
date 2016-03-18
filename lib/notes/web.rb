@@ -28,6 +28,7 @@ class Notes
       socket.print "\r\n"
       body.each { |line| socket.print line }
     end
+
     def self.parser(socket)
       env = {}
       method, url, version = socket.gets.split
@@ -36,12 +37,10 @@ class Notes
       query = url_array[1]
       if query != nil
         query_array = query.split("=")
-        query = [query_array.pop]
+        query = query_array.pop.split('+')
       else
         query = ["add"]
       end
-
-      #query = Hash[query_array.each_slice(2).to_a]
       env['REQUEST_METHOD'] = method
       env['PATH_INFO'] = path
       env['VERSION'] = version
