@@ -39,7 +39,7 @@ class Notes
         query_array = query.split("=")
         query = query_array.pop.split('+')
       else
-        query = ["add"]
+        query = [to_s]
       end
       env['REQUEST_METHOD'] = method
       env['PATH_INFO'] = path
