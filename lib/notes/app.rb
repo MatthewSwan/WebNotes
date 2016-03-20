@@ -14,22 +14,18 @@ module Appmod
         'Concatenate two arrays    [1,2] + [2, 3]   # => [1, 2, 2, 3]',
         'Remove elements in second array from first    [1,2,4] - [2, 3] # => [1,4]',
         'Access an element in an array by its index    ["a","b","c"][0] # => "a"',
-        'Find out how big the array is    ["a","b"].length # => 2']
-
-
-  body1   = '<form action="/search.html" method="GET" accept-charset="utf-8">'             + "\n" +
-            '<label for="query">Query:</label>'                                            + "\n" +
-            '<input type="" name="query" value="" id="query">'                             + "\n" +
-            '<p><input type="submit" value="Continue &rarr;"></p>'                         + "\n" +
-            '</form>'
+        'Find out how big the array is    ["a","b"].length # => 2',
+        'tip 1---- If a note includes your keyword the note will be returned!',
+        'tip 2---- Narrow you search with multiple keywords']
 
   @narrowed_notes = Select.new.select_all(notes, env_hash['QUERY_STRING'])
 
-   if path_info == "/"
-     body =  body1
+   if env_hash['QUERY_STRING'] == ""
+     body = body1
+   elsif path_info == "/"
+     body = ERB.new(File.read('results.html')).result(binding())
    else
-
-     body = ERB.new(File.read('html')).result(binding())
+     body = ERB.new(File.read('results.html')).result(binding())
    end
 
      [200, {'Content-Type' => 'text/html', 'Content-Length' => body.length, 'omg' => 'bbq'}, [body]]
