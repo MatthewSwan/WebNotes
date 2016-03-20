@@ -23,7 +23,7 @@ module Appmod
    if env_hash['QUERY_STRING'] == ""
      body = body1
    elsif path_info == "/"
-     body = ERB.new(File.read('results.html')).result(binding())
+     body = ERB.new(File.read('search.html')).result(binding())
    else
      body = ERB.new(File.read('results.html')).result(binding())
    end
