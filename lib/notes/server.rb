@@ -35,7 +35,7 @@ class Notes
       url_array = url.split("?", 2)
       path = url_array[0]
       query = url_array[1]
-      if query != nil
+      if query
         query_array = query.split("=")
         query = query_array.pop.split('+')
       else
@@ -45,7 +45,7 @@ class Notes
       env['PATH_INFO'] = path
       env['VERSION'] = version
       env['QUERY_STRING'] = query
-      until (line = socket.gets) == "\r\n" do
+      until (line = socket.gets) == "\r\n"
         header_values = line.split(":", 2)
         key = header_values[0]
         key = key.upcase.gsub("-", "_")
@@ -61,6 +61,3 @@ class Notes
     end
   end
 end
-
-
-
