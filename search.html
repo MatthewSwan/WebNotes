@@ -11,9 +11,9 @@
   </style>
 </head>
 <body>
-  <form action="/search.html" method="GET" accept-charset="utf-8">
   <br><br><br><br><br><br><br><br><br>
   <center>
+<form action="/search.html" method="GET" accept-charset="utf-8">
   <img src="http://media-cache-ak0.pinimg.com/736x/b2/af/4f/b2af4fd691a135c3ec18e3665243c226.jpg" height="100" width="100">
   <img src="https://s-media-cache-ak0.pinimg.com/236x/40/02/c6/4002c6191b540048168fc7047fd3280d.jpg" height="100" width="100">
   <img src="https://s-media-cache-ak0.pinimg.com/736x/4e/bf/3e/4ebf3ef61bdf20271bbf8176d0e5ff2a.jpg" height="100" width="100">
@@ -21,13 +21,18 @@
   <img src="https://c1.staticflickr.com/1/52/110180841_66576e8fd6_b.jpg" height="100" width="100">
   <br>
   <input type="" name="query" value="" id="query" size="80"><input type="submit" value="Search"><br><br><br><br><br><br><br><br>
+</form>
   <a>Search our notes repository for helpful ruby examples!<a/>
-  <br><br>
-  <a>Enter any number of search terms</a><br><a>OR</a>
+  <br><a>OR</a>
   <br>
   <a>Enter "tip" to display help</a>
-  </center>
+  <br>
+  <a>OR</a>
+  <br><a>Add a new note</a><br>
+  <form action="/new.html" method="GET" accept-charset="utf-8">
+  <input type="" name="input" value="" id="input" size="10"><input type="submit" value="Add">
 </form>
+  </center>
 </body>
 </html>
 
